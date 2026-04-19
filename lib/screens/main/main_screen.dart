@@ -1,6 +1,13 @@
 import 'package:admin/controllers/menu_app_controller.dart';
 import 'package:admin/responsive.dart';
+import 'package:admin/screens/categories/categories_screen.dart';
+import 'package:admin/screens/clients/clients_screen.dart';
+import 'package:admin/screens/commandes/commandes_screen.dart';
 import 'package:admin/screens/dashboard/dashboard_screen.dart';
+import 'package:admin/screens/livraison/livraison_screen.dart';
+import 'package:admin/screens/parametres/parametres_screen.dart';
+import 'package:admin/screens/produits/produits_screen.dart';
+import 'package:admin/screens/rapports/rapports_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +40,40 @@ class MainScreen extends StatelessWidget {
                 },
               ),
             Expanded(
-              child: DashboardScreen(),
+              child: Consumer<MenuAppController>(
+                builder: (context, controller, child) {
+                  Widget selectedScreen;
+                  switch (controller.selectedIndex) {
+                    case 0:
+                      selectedScreen = DashboardScreen();
+                      break;
+                    case 1:
+                      selectedScreen = CommandesScreen();
+                      break;
+                    case 2:
+                      selectedScreen = ProduitsScreen();
+                      break;
+                    case 3:
+                      selectedScreen = CategoriesScreen();
+                      break;
+                    case 4:
+                      selectedScreen = ClientsScreen();
+                      break;
+                    case 5:
+                      selectedScreen = LivraisonScreen();
+                      break;
+                    case 6:
+                      selectedScreen = RapportsScreen();
+                      break;
+                    case 7:
+                      selectedScreen = ParametresScreen();
+                      break;
+                    default:
+                      selectedScreen = DashboardScreen();
+                  }
+                  return selectedScreen;
+                },
+              ),
             ),
           ],
         ),
