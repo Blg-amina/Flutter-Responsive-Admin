@@ -203,29 +203,33 @@ class OrdersList extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [primaryColor, primaryDarkColor],
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                  boxShadow: buttonShadow,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add, color: Colors.white, size: 16),
-                    SizedBox(width: 6),
-                    Text(
-                      "Nouvelle Commande",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+              InkWell(
+                onTap: () => _showAddOrderDialog(context, isDark),
+                borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [primaryColor, primaryDarkColor],
                     ),
-                  ],
+                    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                    boxShadow: buttonShadow,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.add, color: Colors.white, size: 16),
+                      SizedBox(width: 6),
+                      Text(
+                        "Nouvelle Commande",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -365,6 +369,158 @@ class OrderItem extends StatelessWidget {
         return textSecondary;
     }
   }
+}
+
+void _showAddOrderDialog(BuildContext context, bool isDark) {
+  final TextEditingController clientController = TextEditingController();
+  final TextEditingController totalController = TextEditingController();
+  String selectedStatus = 'En attente';
+
+  showDialog(
+    context: context,
+    builder: (context) => StatefulBuilder(
+      builder: (context, setState) => AlertDialog(
+        backgroundColor: isDark ? darkSecondaryColor : secondaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+        ),
+        title: Text(
+          'Nouvelle Commande',
+          style: TextStyle(
+            color: isDark ? darkTextPrimary : textPrimary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Client',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: clientController,
+                decoration: InputDecoration(
+                  hintText: 'Nom du client',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Total (DA)',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: totalController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: '0.00',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Statut',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              DropdownButtonFormField<String>(
+                initialValue: selectedStatus,
+                dropdownColor: isDark ? darkSecondaryColor : secondaryColor,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+                items: ['En attente', 'Confirmée', 'Livraison', 'Annulée']
+                    .map((status) => DropdownMenuItem(
+                          value: status,
+                          child: Text(status),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() => selectedStatus = value!);
+                },
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Annuler',
+              style: TextStyle(
+                color: isDark ? darkTextSecondary : textSecondary,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Commande créée avec succès'),
+                  backgroundColor: successColor,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+              ),
+            ),
+            child: Text('Créer'),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 final List<Map<String, dynamic>> orderStats = [

@@ -182,29 +182,33 @@ class ProductsGrid extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [primaryColor, primaryDarkColor],
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                  boxShadow: buttonShadow,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add, color: Colors.white, size: 16),
-                    SizedBox(width: 6),
-                    Text(
-                      "Ajouter Produit",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+              InkWell(
+                onTap: () => _showAddProductDialog(context, isDark),
+                borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [primaryColor, primaryDarkColor],
                     ),
-                  ],
+                    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                    boxShadow: buttonShadow,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.add, color: Colors.white, size: 16),
+                      SizedBox(width: 6),
+                      Text(
+                        "Ajouter Produit",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -483,3 +487,206 @@ final List<Map<String, dynamic>> products = [
     'isPopular': true,
   },
 ];
+
+void _showAddProductDialog(BuildContext context, bool isDark) {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController stockController = TextEditingController();
+  String selectedCategory = 'Épicerie';
+  bool isPopular = false;
+
+  showDialog(
+    context: context,
+    builder: (context) => StatefulBuilder(
+      builder: (context, setState) => AlertDialog(
+        backgroundColor: isDark ? darkSecondaryColor : secondaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+        ),
+        title: Text(
+          'Ajouter Produit',
+          style: TextStyle(
+            color: isDark ? darkTextPrimary : textPrimary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nom du produit',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: 'Ex: Huile d\'Olive',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Prix (DA)',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: priceController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: '0.00',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Stock',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: stockController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: '0',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Catégorie',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              DropdownButtonFormField<String>(
+                initialValue: selectedCategory,
+                dropdownColor: isDark ? darkSecondaryColor : secondaryColor,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+                items: ['Épicerie', 'Céréales', 'Boissons', 'Fruits Secs', 'Boulangerie', 'Produits Laitiers']
+                    .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() => selectedCategory = value!);
+                },
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  Checkbox(
+                    value: isPopular,
+                    onChanged: (value) {
+                      setState(() => isPopular = value!);
+                    },
+                    activeColor: primaryColor,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    'Marquer comme populaire',
+                    style: TextStyle(
+                      color: isDark ? darkTextPrimary : textPrimary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Annuler',
+              style: TextStyle(
+                color: isDark ? darkTextSecondary : textSecondary,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Produit ajouté avec succès'),
+                  backgroundColor: successColor,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+              ),
+            ),
+            child: Text('Ajouter'),
+          ),
+        ],
+      ),
+    ),
+  );
+}

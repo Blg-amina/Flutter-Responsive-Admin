@@ -203,29 +203,33 @@ class ClientsList extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [primaryColor, primaryDarkColor],
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-                  boxShadow: buttonShadow,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add, color: Colors.white, size: 16),
-                    SizedBox(width: 6),
-                    Text(
-                      "Nouveau Client",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+              InkWell(
+                onTap: () => _showAddClientDialog(context, isDark),
+                borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [primaryColor, primaryDarkColor],
                     ),
-                  ],
+                    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+                    boxShadow: buttonShadow,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.add, color: Colors.white, size: 16),
+                      SizedBox(width: 6),
+                      Text(
+                        "Nouveau Client",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -438,3 +442,185 @@ final List<Map<String, dynamic>> clients = [
     'status': 'VIP',
   },
 ];
+
+void _showAddClientDialog(BuildContext context, bool isDark) {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  String selectedStatus = 'Actif';
+
+  showDialog(
+    context: context,
+    builder: (context) => StatefulBuilder(
+      builder: (context, setState) => AlertDialog(
+        backgroundColor: isDark ? darkSecondaryColor : secondaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+        ),
+        title: Text(
+          'Nouveau Client',
+          style: TextStyle(
+            color: isDark ? darkTextPrimary : textPrimary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nom complet',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: 'Ex: Ahmed Benali',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Email',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hintText: 'email@exemple.com',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Téléphone',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  hintText: '+213 555 123 456',
+                  hintStyle: TextStyle(
+                    color: isDark ? darkTextSecondary : textSecondary,
+                  ),
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Statut',
+                style: TextStyle(
+                  color: isDark ? darkTextSecondary : textSecondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 6),
+              DropdownButtonFormField<String>(
+                initialValue: selectedStatus,
+                dropdownColor: isDark ? darkSecondaryColor : secondaryColor,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: isDark ? darkBgColor : bgColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(
+                  color: isDark ? darkTextPrimary : textPrimary,
+                ),
+                items: ['Actif', 'Inactif', 'VIP', 'Bloqué']
+                    .map((status) => DropdownMenuItem(
+                          value: status,
+                          child: Text(status),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() => selectedStatus = value!);
+                },
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Annuler',
+              style: TextStyle(
+                color: isDark ? darkTextSecondary : textSecondary,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Client ajouté avec succès'),
+                  backgroundColor: successColor,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(smallRadius)),
+              ),
+            ),
+            child: Text('Ajouter'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
