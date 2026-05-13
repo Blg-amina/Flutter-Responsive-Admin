@@ -32,7 +32,7 @@ class Header extends StatelessWidget {
           if (!Responsive.isMobile(context)) SizedBox(width: defaultPadding),
           if (!Responsive.isSmallMobile(context))
             Text(
-              "FulfillMarket Dashboard",
+              "Fulfilmarket Dashboard",
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.5,
