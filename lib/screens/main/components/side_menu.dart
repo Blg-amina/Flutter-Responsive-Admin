@@ -34,10 +34,10 @@ class SideMenu extends StatelessWidget {
                         borderRadius: BorderRadius.circular(largeRadius),
                         boxShadow: buttonShadow,
                       ),
-                      child: const Icon(
-                        Icons.shopping_bag_outlined,
-                        size: 36,
-                        color: Colors.white,
+                      child: Image.asset(
+                        'assets/images/logo.jpg',
+                        width: 36,
+                        height: 36,
                       ),
                     ),
                     const SizedBox(height: 14),
