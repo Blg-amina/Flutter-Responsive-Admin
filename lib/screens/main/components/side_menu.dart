@@ -25,25 +25,19 @@ class SideMenu extends StatelessWidget {
                 color: isDark ? darkSecondaryColor : secondaryColor,
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [primaryColor, primaryDarkColor],
-                        ),
-                        borderRadius: BorderRadius.circular(largeRadius),
-                        boxShadow: buttonShadow,
-                      ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(largeRadius),
                       child: Image.asset(
                         'assets/images/logo.jpg',
-                        width: 36,
-                        height: 36,
+                        width: 140,
+                        height: 140,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(height: 14),
 
                     Text(
-                      "FulfillMarket",
+                      "Fulfilmarket",
                       style: TextStyle(
                         color: isDark ? darkTextPrimary : textPrimary,
                         fontSize: 20,
